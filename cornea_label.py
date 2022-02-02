@@ -12,7 +12,7 @@ def begueradj_draw(event,former_x,former_y,flags,param):
     global current_former_x,current_former_y,drawing, mode
 
     if event == cv2.EVENT_LBUTTONDOWN:
-        drawing == True
+        drawing = True
         current_former_x,current_former_y = former_x,former_y
     
     elif event == cv2.EVENT_MOUSEMOVE:
@@ -38,7 +38,7 @@ def begueradj_draw(event,former_x,former_y,flags,param):
     return former_x,former_y
 
 
-dir_name = '/Users/mac/Desktop/lab/pupil_1/original_image/'
+dir_name = 'E:/3Dimage/Intensity/OCT_Pupillary_Test/pupildata/original_asc/full_pupil/'
 
 file_name = os.listdir(dir_name)[1]
 img_array = np.loadtxt(dir_name + file_name)
