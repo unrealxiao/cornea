@@ -5,7 +5,7 @@ import os
 
 drawing = False
 mode = True
-
+thick = 15
 layer_1_x = []
 layer_1_y = []
 
@@ -24,23 +24,22 @@ def begueradj_draw(event,former_x,former_y,flags,param):
     if event == cv2.EVENT_LBUTTONDOWN:
         drawing = True
         current_former_x,current_former_y = former_x,former_y
-    
     elif event == cv2.EVENT_MOUSEMOVE:
         if drawing==True:
             if mode==True and layer_num == 1:
-                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,0,255),8)
+                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,0,255),thick)
                 current_former_x = former_x
                 current_former_y = former_y
                 layer_1_x.append(current_former_x)
                 layer_1_y.append(current_former_y)
             elif mode == True and layer_num == 2:
-                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,255,0),8)
+                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,255,0),thick)
                 current_former_x = former_x
                 current_former_y = former_y
                 layer_2_x.append(current_former_x)
                 layer_2_y.append(current_former_y)
             elif mode == True and layer_num == 3:
-                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(255,0,0),8)
+                cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(255,0,0),thick)
                 current_former_x = former_x
                 current_former_y = former_y
                 layer_3_x.append(current_former_x)
@@ -51,19 +50,19 @@ def begueradj_draw(event,former_x,former_y,flags,param):
     elif event==cv2.EVENT_LBUTTONUP:
         drawing=False
         if mode==True and layer_num == 1:
-            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,0,255),8)
+            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,0,255),thick)
             current_former_x = former_x
             current_former_y = former_y
             layer_1_x.append(current_former_x)
             layer_1_y.append(current_former_y)
         elif mode == True and layer_num == 2:
-            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,255,0),8)
+            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(0,255,0),thick)
             current_former_x = former_x
             current_former_y = former_y
             layer_2_x.append(current_former_x)
             layer_2_y.append(current_former_y)
         elif mode == True and layer_num == 3:
-            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(255,0,0),8)
+            cv2.line(new_img,(current_former_x,current_former_y),(former_x,former_y),(255,0,0),thick)
             current_former_x = former_x
             current_former_y = former_y
             layer_3_x.append(current_former_x)
@@ -72,10 +71,10 @@ def begueradj_draw(event,former_x,former_y,flags,param):
     return former_x,former_y
 
 
-dir_name = '/Users/mac/Desktop/lab/pupil_1/original_image/'
+dir_name = 'G:/OCM_MCFM_Data/E/Buffer_Double_Frame/Mice_3_August_2021/Mice_28July2021/Mice_SMAD4_KO/OS/Cornea_PBS_2V/asc_file/'
 
 
-for m in range(0, len(os.listdir(dir_name))):
+for m in range(300, len(os.listdir(dir_name))):
     file_name = os.listdir(dir_name)[m]
     img_array = np.loadtxt(dir_name + file_name)
     img_array1 = (img_array/np.max(img_array)*200).astype(np.uint8)
@@ -111,13 +110,13 @@ for m in range(0, len(os.listdir(dir_name))):
             mask_img = np.zeros((new_img.shape[0], new_img.shape[1]), np.uint8)
             if len(layer_1_x) >=2:
                 for i in range(0, len(layer_1_x) - 1):
-                    cv2.line(mask_img,(layer_1_x[i],layer_1_y[i]),(layer_1_x[i + 1],layer_1_y[i + 1]), 1, 8)
+                    cv2.line(mask_img,(layer_1_x[i],layer_1_y[i]),(layer_1_x[i + 1],layer_1_y[i + 1]), 1, thick)
             if len(layer_2_x) >=2:
                 for i in range(0, len(layer_2_x) - 1):
-                    cv2.line(mask_img,(layer_2_x[i],layer_2_y[i]),(layer_2_x[i + 1],layer_2_y[i + 1]), 1, 8)
+                    cv2.line(mask_img,(layer_2_x[i],layer_2_y[i]),(layer_2_x[i + 1],layer_2_y[i + 1]), 1, thick)
             if len(layer_3_x) >=2:
                 for i in range(0, len(layer_3_x) - 1):
-                    cv2.line(mask_img,(layer_3_x[i],layer_3_y[i]),(layer_3_x[i + 1],layer_3_y[i + 1]), 1, 8)
+                    cv2.line(mask_img,(layer_3_x[i],layer_3_y[i]),(layer_3_x[i + 1],layer_3_y[i + 1]), 1, thick)
             #tf_input = tf.keras.utils.array_to_img(input_img)
             #tf_mask = tf.keras.utils.array_to_img(np.repeat(np.expand_dims(mask_img,-1),3,-1))
             #plt.imshow(tf.keras.utils.array_to_img(input_img), cmap = "gray")
@@ -135,9 +134,9 @@ for m in range(0, len(os.listdir(dir_name))):
             layer_3_y = []
             new_img = reserve_img.copy()
         elif k == ord('s'):
-            cv2.imwrite('/Users/mac/Desktop/lab/pupil_1/input_image/' + 'input_' + str(m) + '.jpg', reserve_img.copy())
-            cv2.imwrite('/Users/mac/Desktop/lab/pupil_1/output_image/' + 'output_' + str(m) + '.jpg', mask_img)
-            print("save data_" + str(m))
+            cv2.imwrite('E:/3Dimage/Intensity/OCT_Pupillary_Test/corneadata/input/' + 'input_' + str(m + 901) + '.jpg', reserve_img.copy())
+            cv2.imwrite('E:/3Dimage/Intensity/OCT_Pupillary_Test/corneadata/output/' + 'output_' + str(m + 901) + '.jpg', mask_img)
+            print("save data_" + str(m + 901))
 
 
 
